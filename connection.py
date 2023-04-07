@@ -1,4 +1,9 @@
-
+import configparser
+import boto3
+from botocore.client import Config
+from botocore import UNSIGNED
+import psycopg2
+import psycopg2.pool
 
 
 config = configparser.ConfigParser()
@@ -19,6 +24,7 @@ ID=config.get('DWH', 'ID')
 def connect_to_s3_storage():
     s3 = boto3.client('s3', config=Config(signature_version=UNSIGNED))
     objects = s3.list_objects_v2(Bucket=S3_BUCKET_NAME, Prefix="orders_data/")
+    return s3, objects
 
 
 def connect_to_datawarehouse():
@@ -44,13 +50,14 @@ def connect_to_datawarehouse():
         conn.set_session(autocommit=True)
 
         # Return the cursor and connection
-    #     return cur, conn
 
     except psycopg2.Error as e:
             # If an error occurs, log it and raise an exception
             print('Error: Could not get connection from the pool')
             print(e)
             raise
+    
+    return cur
     
 
 def close_connection():

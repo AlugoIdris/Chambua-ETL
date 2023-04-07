@@ -15,9 +15,18 @@ from create_tables import *
 config = configparser.ConfigParser()
 config.read_file(open('cluster.config'))
 
+
+connect_to_s3_storage()
+
+connect_to_datawarehouse()
+
+cur = connect_to_datawarehouse()
+
+s3, objects = connect_to_s3_storage()
+
 def process_orders_data(cur, filename):
    
-    def download_and_load_query_results():
+    def download_and_load_query_results(filename):
         for obj in objects['Contents'][1:]:
             path = obj['Key'].split('/')[1]
             name = obj['Key'].split('/')[1].split('.')[0]
@@ -29,7 +38,7 @@ def process_orders_data(cur, filename):
             if filename == name:
                 return pd.read_csv(path)
 
-    orders = download_and_load_query_results('filename')    
+    orders = download_and_load_query_results(filename)    
     data_orders = orders.values.tolist()
 
     try:
@@ -50,7 +59,7 @@ def process_orders_data(cur, filename):
 
 def process_reviews_data(cur, filename):
    
-    def download_and_load_query_results():
+    def download_and_load_query_results(filename):
         for obj in objects['Contents'][1:]:
             path = obj['Key'].split('/')[1]
             name = obj['Key'].split('/')[1].split('.')[0]
@@ -62,7 +71,7 @@ def process_reviews_data(cur, filename):
             if filename == name:
                 return pd.read_csv(path)
 
-    reviews = download_and_load_query_results('filename')    
+    reviews = download_and_load_query_results(filename)    
     data_reviews = reviews.values.tolist()
 
     try:
@@ -82,7 +91,7 @@ def process_reviews_data(cur, filename):
 
 def process_shipment_data(cur, filename):
 
-    def download_and_load_query_results():
+    def download_and_load_query_results(filename):
         for obj in objects['Contents'][1:]:
             path = obj['Key'].split('/')[1]
             name = obj['Key'].split('/')[1].split('.')[0]
@@ -94,7 +103,7 @@ def process_shipment_data(cur, filename):
             if filename == name:
                 return pd.read_csv(path)
 
-    shipment_deliveries = download_and_load_query_results('filename')
+    shipment_deliveries = download_and_load_query_results(filename)
     shipment_deliveries['shipment_date'] = pd.to_datetime(shipment_deliveries['shipment_date'], format= '%Y-%m-%d').dt.date
     shipment_deliveries['delivery_date'] = pd.to_datetime(shipment_deliveries['delivery_date'], format= '%Y-%m-%d').dt.date
     shipment_deliveries = shipment_deliveries.replace({np.NaN: None})   
@@ -119,11 +128,6 @@ def process_shipment_data(cur, filename):
 
 
 def main():
-
-    connect_to_s3_storage()
-
-    connect_to_datawarehouse()
-    
 
     process_orders_data(cur, 'orders')
     process_reviews_data(cur, 'reviews')
