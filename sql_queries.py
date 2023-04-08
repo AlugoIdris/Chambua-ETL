@@ -4,7 +4,7 @@ orders_table_create = ('''
                         CREATE TABLE IF NOT EXISTS orders (
                         order_id INTEGER NOT NULL PRIMARY KEY,
                         customer_id INTEGER NOT NULL,
-                        order_date TIMESTAMP NOT NULL,
+                        order_date DATE NOT NULL,
                         product_id INTEGER NOT NULL,
                         unit_price INTEGER NOT NULL,
                         quantity INTEGER NOT NULL,
@@ -24,14 +24,14 @@ shipment_table_create = ('''
                         CREATE TABLE IF NOT EXISTS shipment_deliveries(
                         shipment_id INTEGER NOT NULL PRIMARY KEY,
                         order_id INTEGER NOT NULL,
-                        shipment_date TIMESTAMP NULL,
-                        delivery_date TIMESTAMP NULL
+                        shipment_date DATE NULL,
+                        delivery_date DATE NULL
                         );''')
 
 agg_public_holiday_table_create = (
                         '''
                         CREATE TABLE idrialug9071_analytics.agg_public_holiday(
-                        ingestion_date timestamp not null primary key,
+                        ingestion_date DATE not null primary key,
                         tt_order_hol_jan integer not null,
                         tt_order_hol_feb integer not null,
                         tt_order_hol_mar integer not null,
@@ -49,7 +49,7 @@ agg_public_holiday_table_create = (
 
 agg_shipments_table_create = ('''
                         CREATE TABLE idrialug9071_analytics.agg_shipments(
-                            ingestion_date timestamp not null primary key,
+                            ingestion_date DATE not null primary key,
                             tt_late_shipments integer not null,
                             tt_undelivered_shipments integer not null
                             );
@@ -57,7 +57,7 @@ agg_shipments_table_create = ('''
 
 best_performing_product_table_create = ('''
                         CREATE TABLE idrialug9071_analytics.agg_shipments(
-                            ingestion_date timestamp not null primary key,
+                            ingestion_date DATE not null primary key,
                             tt_late_shipments integer not null,
                             tt_undelivered_shipments integer not null
                             );

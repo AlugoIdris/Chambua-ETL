@@ -26,6 +26,12 @@ def compute_agg_public_holiday():
             print('Error: Issue inserting data')
             print(e)
 
+    #Upload data to S3 bucket
+    with open('agg_public_holiday.csv', 'w') as f:
+        cur.copy_expert(f"COPY {ANALYTICS_SCHEMA}.agg_public_holiday TO STDOUT WITH HEADER CSV", f)
+        
+    s3.upload_file('agg_public_holiday.csv', S3_BUCKET_NAME, f'{EXPORT}/{ID}/agg_public_holiday.csv')
+
 
 def compute_agg_shipments():
     with cur:
@@ -49,6 +55,11 @@ def compute_agg_shipments():
             print('Error: Issue inserting data')
             print(e)
 
+    with open('agg_shipments.csv', 'w') as f:
+        cur.copy_expert(f"COPY {ANALYTICS_SCHEMA}.agg_shipments TO STDOUT WITH HEADER CSV", f)
+        
+    s3.upload_file('agg_shipments.csv', S3_BUCKET_NAME, f'{EXPORT}/{ID}/agg_shipments.csv')
+
 
 def compute_best_performing_product():
     with cur:
@@ -71,3 +82,8 @@ def compute_best_performing_product():
         except Exception as e:
             print('Error: Issue inserting data')
             print(e)
+
+    with open('best_performing_product.csv', 'w') as f:
+        cur.copy_expert(f"COPY {ANALYTICS_SCHEMA}.best_performing_product TO STDOUT WITH HEADER CSV", f)
+        
+    s3.upload_file('best_performing_product.csv', S3_BUCKET_NAME, f'{EXPORT}/{ID}/best_performing_product.csv')

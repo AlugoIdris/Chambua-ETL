@@ -27,16 +27,20 @@ s3, objects = connect_to_s3_storage()
 def process_orders_data(cur, filename):
    
     def download_and_load_query_results(filename):
+        object_lists = []
         for obj in objects['Contents'][1:]:
-            path = obj['Key'].split('/')[1]
+            object_lists.append(obj['Key'].split('/')[1].split('.')[0])
+            
+        if filename in object_lists:
+            path = f'{filename}.csv'
             name = obj['Key'].split('/')[1].split('.')[0]
-            s3.download_file(
-                S3_BUCKET_NAME,
-                Key = f"orders_data/{path}",
-                Filename  = path,
-            )
-            if filename == name:
-                return pd.read_csv(path)
+        s3.download_file(
+            S3_BUCKET_NAME,
+            Key = f"orders_data/{path}",
+            Filename  = path,
+        )
+
+        return pd.read_csv(path)
 
     orders = download_and_load_query_results(filename)    
     data_orders = orders.values.tolist()
@@ -60,17 +64,21 @@ def process_orders_data(cur, filename):
 def process_reviews_data(cur, filename):
    
     def download_and_load_query_results(filename):
+        object_lists = []
         for obj in objects['Contents'][1:]:
-            path = obj['Key'].split('/')[1]
+            object_lists.append(obj['Key'].split('/')[1].split('.')[0])
+            
+        if filename in object_lists:
+            path = f'{filename}.csv'
             name = obj['Key'].split('/')[1].split('.')[0]
-            s3.download_file(
-                S3_BUCKET_NAME,
-                Key = f"orders_data/{path}",
-                Filename  = path,
-            )
-            if filename == name:
-                return pd.read_csv(path)
+        s3.download_file(
+            S3_BUCKET_NAME,
+            Key = f"orders_data/{path}",
+            Filename  = path,
+        )
 
+        return pd.read_csv(path)
+    
     reviews = download_and_load_query_results(filename)    
     data_reviews = reviews.values.tolist()
 
@@ -92,16 +100,20 @@ def process_reviews_data(cur, filename):
 def process_shipment_data(cur, filename):
 
     def download_and_load_query_results(filename):
+        object_lists = []
         for obj in objects['Contents'][1:]:
-            path = obj['Key'].split('/')[1]
+            object_lists.append(obj['Key'].split('/')[1].split('.')[0])
+            
+        if filename in object_lists:
+            path = f'{filename}.csv'
             name = obj['Key'].split('/')[1].split('.')[0]
-            s3.download_file(
-                S3_BUCKET_NAME,
-                Key = f"orders_data/{path}",
-                Filename  = path,
-            )
-            if filename == name:
-                return pd.read_csv(path)
+        s3.download_file(
+            S3_BUCKET_NAME,
+            Key = f"orders_data/{path}",
+            Filename  = path,
+        )
+
+        return pd.read_csv(path)
 
     shipment_deliveries = download_and_load_query_results(filename)
     shipment_deliveries['shipment_date'] = pd.to_datetime(shipment_deliveries['shipment_date'], format= '%Y-%m-%d').dt.date

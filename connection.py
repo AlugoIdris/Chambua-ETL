@@ -18,6 +18,7 @@ STAGING_SCHEMA=config.get('DWH', 'STAGING_SCHEMA')
 ANALYTICS_SCHEMA=config.get('DWH', 'ANALYTICS_SCHEMA')
 S3_BUCKET_NAME=config.get('DWH', 'S3_BUCKET_NAME')
 ID=config.get('DWH', 'ID')
+EXPORT=config.get('DWH', 'EXPORT')
 
 
 
@@ -61,4 +62,5 @@ def connect_to_datawarehouse():
     
 
 def close_connection():
+    conn.close()
     conn.close()
