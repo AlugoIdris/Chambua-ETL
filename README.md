@@ -20,6 +20,8 @@ The infrastructure describe above is set up running the following command
 python etl.py
 ```
 
+This will execute the entire ETL pipeline, from data extraction to data loading. The transformed data will be stored in the transformed_data directory, and the log files will be stored in the logs directory.
+
 # Relations Creation
 A total of three tables are created in the database hosted in Redshift. They include `orders`, `reviews` & `shipment_deliveries` tables. There are already four other tables existing in the datawarehouse. The `dim_customers`, `dim_products`, `dim_dates`, `dim_addresses`. The names of the tables along with their attributes are self explanatory about the information they hold. The primary key of each table is highlighted for clarity.
 
@@ -28,46 +30,21 @@ In order to create these tables the following command is used within the etl pip
 python create_tables.py
 ``` 
 
-# ETL Design
-The extract part begins with extracting both the song data and log data both of which lie as objects in the S3 bucket. This data is dumped intermediately into two different staging tables `staging_songs` & `staging_events`. For copying JSON data from S3 into a Redshift table the following syntax is used
-```bash
-COPY <Table Name>
-FROM '<S3_Bucket_URL>'
-IAM_ROLE '<IAM_Role_ARN>' 
-JSON 'auto' / '<JSONPATH_URL>' ;
-```
-There are two options while loading the JSON data into a Redshift table(`auto` or `<JSONPATH_URL>`). The `auto` argument assumes that the JSON data consists of set of objects and the names of key correspond to the column names in the table. If the key names do not match with the the column names or parsing of JSON data is required then a JSONPATH file is essential which maps JSON elements to column names of the table. For our second table `staging_events` we would be using a JSONPATH file for the reason explained above.
+# ETL Pipeline
+The ETL pipeline consists of the following steps:
 
-The diagram below brings in more clarity with regards to the architecture explained above.
+1. Extraction: the raw data is read from the source data files, S3 using pandas dataframe and downloaded into `logs` directory
 
-<p align="center">
-  <img src="https://github.com/anhassan/Data-WareHouse-Design-using-ETL-pipeline-with-AWS-S3-Redshift/blob/master/Images/S3_Redshift_ETL.png">
-</p>
+2. Transformation: the data is cleaned as needed to prepare it for analysis. This includes data validation, data type conversions, etc.
 
+3. Loading: the transformed data is written to the staging database tables using ***Pandas and psycopg2***. The data is loaded into the staging tables and stored in the `transformed_data` directory using the following pseudo-code.
 
-Once the data is loaded in the staging tables, the transform phase begins. The transformation of the data is done according to the Kimball's Bus Architecture. A star schema is used with one fact table(`songplays`) and 4 dimension tables(`users`,`artists`,`songs` & `time`) in order to make the shema is best suited for running Adhoc OLAP queries.
-
-Finally, the data from staging tables is loaded from the staging tables into the fact and dimension tables using the following pseudo-code.
 ```SQL
 INSERT INTO <table_name_star_schema>(<column_names>)
 SELECT <column_names> FROM <table_name_staging_table>;
 ```
-The diagram below gives a pictorial view of how this done.
-
-<p align="center">
-  <img width="719" height="700" src="https://github.com/anhassan/Data-WareHouse-Design-using-ETL-pipeline-with-AWS-S3-Redshift/blob/master/Images/ETL_Staging_StarSchema_.png">
-</p>
-
-
-The star schema makes sure that the data is denormalized , easy to understand and no complex joins are required to find out insights using analytical queries.
 
 In order to extract, transform and load (ETL) use the following command.
 ```bash
 python etl.py
-```
-
-# Resource Termination
-Finally, after running the OLAP queries and completing the analysis to find out insights it is essential to free up all the allocated resources so that they might not result in extra costs. In order to do so run the following command
-```bash
-python delete_infrastructure.py
 ```
