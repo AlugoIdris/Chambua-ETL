@@ -1,1 +1,0 @@
-# idrialug9071_d2b_project
