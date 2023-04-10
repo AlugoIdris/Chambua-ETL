@@ -56,26 +56,35 @@ agg_shipments_table_create = ('''
                         ''')
 
 best_performing_product_table_create = ('''
-                        CREATE TABLE idrialug9071_analytics.agg_shipments(
-                            ingestion_date DATE not null primary key,
-                            tt_late_shipments integer not null,
-                            tt_undelivered_shipments integer not null
+                                                  CREATE TABLE idrialug9071_analytics.best_performing_product(
+                            ingestion_date date not null primary key,
+                            product_name varchar not null,
+                            most_ordered_day date not null,
+                            is_public_holiday bool not null,
+                            tt_review_points integer not null,
+                            pct_one_star_review float not null,
+                            pct_two_star_review float not null,
+                            pct_three_star_review float not null,
+                            pct_four_star_review float not null,
+                            pct_five_star_review float not null,
+                            pct_early_shipments float not null,
+                            pct_late_shipments float not null
                             );
                         ''')
 
 
 #DROP TABLES
 
-agg_public_holiday_table_drop = (''''
+agg_public_holiday_table_drop = ('''
                                     DROP TABLE IF EXISTS idrialug9071_analytics.agg_public_holiday;
                                     ''')
 
 
-agg_shipments_table_drop = (''''
+agg_shipments_table_drop = ('''
                                     DROP TABLE IF EXISTS idrialug9071_analytics.agg_shipments;
                                 ''')
 
-best_performing_product_table_drop = (''''
+best_performing_product_table_drop = ('''
                                     DROP TABLE IF EXISTS idrialug9071_analytics.best_performing_product;
                                 ''')
 

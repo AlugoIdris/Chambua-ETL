@@ -16,10 +16,6 @@ config = configparser.ConfigParser()
 config.read_file(open('cluster.config'))
 
 
-connect_to_s3_storage()
-
-connect_to_datawarehouse()
-
 cur = connect_to_datawarehouse()
 
 s3, objects = connect_to_s3_storage()
@@ -137,27 +133,18 @@ def process_shipment_data(cur, filename):
 
 
 
-
-
-def main():
+if __name__ == "__main__":
 
     process_orders_data(cur, 'orders')
     process_reviews_data(cur, 'reviews')
     process_shipment_data(cur, 'shipment_deliveries')
 
+
     # Create agg_public_holiday table schema
-    compute_agg_public_holiday
+    compute_agg_public_holiday()
 
     # Create compute_agg_shipments table schema
-    compute_agg_shipments
+    compute_agg_shipments()
 
     # Create compute_best_performing_product table schema
-    compute_best_performing_product
-
-
-    # close connection
-    close_connection
-
-
-if __name__ == "__main__":
-    main()
+    compute_best_performing_product()
