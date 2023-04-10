@@ -25,6 +25,11 @@ This will execute the entire ETL pipeline, from data extraction to data loading.
 # Relations Creation
 A total of three tables are created in the database hosted in Redshift. They include `orders`, `reviews` & `shipment_deliveries` tables. There are already four other tables existing in the datawarehouse. The `dim_customers`, `dim_products`, `dim_dates`, `dim_addresses`. The names of the tables along with their attributes are self explanatory about the information they hold. The primary key of each table is highlighted for clarity.
 
+<p align="center">
+  <img src="">
+</p>
+
+
 In order to create these tables the following command is used within the etl pipeline
 ```bash
 python create_tables.py
