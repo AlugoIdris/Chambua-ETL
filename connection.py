@@ -63,4 +63,3 @@ def connect_to_datawarehouse():
 
 def close_connection():
     conn.close()
-    conn.close()
