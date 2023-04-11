@@ -61,5 +61,5 @@ def connect_to_datawarehouse():
     return cur
     
 
-def close_connection():
-    cur.close()
+# def close_connection():
+#     cur.close()

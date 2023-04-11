@@ -148,3 +148,5 @@ if __name__ == "__main__":
 
     # Create compute_best_performing_product table schema
     compute_best_performing_product()
+
+

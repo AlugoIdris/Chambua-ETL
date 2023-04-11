@@ -205,11 +205,11 @@ best_performing_product_table_insert = ('''
                   product_id, 
                   COUNT(review) AS total_reviews, 
                   AVG(review) AS avg_review_points, 
-                  (SUM(CASE WHEN review = 1 THEN 1 ELSE 0 END) / COUNT(review))  AS pct_one_star_review, 
-                  (SUM(CASE WHEN review = 2 THEN 1 ELSE 0 END) / COUNT(review))  AS pct_two_star_review, 
-                  (SUM(CASE WHEN review = 3 THEN 1 ELSE 0 END) / COUNT(review))  AS pct_three_star_review, 
-                  (SUM(CASE WHEN review = 4 THEN 1 ELSE 0 END) / COUNT(review))  AS pct_four_star_review, 
-                  (SUM(CASE WHEN review = 5 THEN 1 ELSE 0 END) / COUNT(review))  AS pct_five_star_review
+                  ROUND((SUM(CASE WHEN review = 1 THEN 1 ELSE 0 END)*100.0 / COUNT(review)), 2)  AS pct_one_star_review, 
+                  ROUND((SUM(CASE WHEN review = 2 THEN 1 ELSE 0 END)*100.0 / COUNT(review)), 2)  AS pct_two_star_review, 
+                  ROUND((SUM(CASE WHEN review = 3 THEN 1 ELSE 0 END)*100.0 / COUNT(review)), 2)  AS pct_three_star_review, 
+                  ROUND((SUM(CASE WHEN review = 4 THEN 1 ELSE 0 END)*100.0 / COUNT(review)), 2)  AS pct_four_star_review, 
+                  ROUND((SUM(CASE WHEN review = 5 THEN 1 ELSE 0 END)*100.0 / COUNT(review)), 2)  AS pct_five_star_review
                 FROM 
                   idrialug9071_staging.reviews
                 GROUP BY 
@@ -255,8 +255,8 @@ best_performing_product_table_insert = ('''
               pct_three_star_review,
               pct_four_star_review,
               pct_five_star_review,
-              (shipments_cte.tt_early_shipments / (shipments_cte.tt_late_shipments + shipments_cte.tt_early_shipments)) AS pct_early_shipments,
-              (shipments_cte.tt_late_shipments / (shipments_cte.tt_late_shipments + shipments_cte.tt_early_shipments)) AS pct_late_shipments 
+              ROUND((shipments_cte.tt_early_shipments*100.0 / (shipments_cte.tt_late_shipments + shipments_cte.tt_early_shipments)), 2) AS pct_early_shipments,
+              ROUND((shipments_cte.tt_late_shipments*100.0 / (shipments_cte.tt_late_shipments + shipments_cte.tt_early_shipments)), 2) AS pct_late_shipments 
             FROM 
               if_common.dim_products 
             JOIN 
