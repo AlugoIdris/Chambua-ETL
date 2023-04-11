@@ -56,3 +56,14 @@ python etl.py
 ```
 
 This will execute the entire ETL pipeline, from data extraction to data loading. The transformed data will be loaded to the RDS staging warehouse `idrialug9071_staging`, and the computed files will be loaded back to the S3 bucket directory `idrialug9071_analytics`.
+
+
+# Extra: Data Visualization
+Modelling the dimension tables in the data warehouse, alongside the loaded data from S3 bucket, a report was created using Microsoft Power BI to see how the produccts are doing with respect to reviews, sales, orders, etc. The visualization is shown below:
+
+<p align="center">
+  <img src="https://github.com/AlugoIdris/idrialug9071_d2b_project/blob/master/images/Chambua%20Inc.png">
+</p>
+
+Report can be found on: 
+https://app.powerbi.com/view?r=eyJrIjoiZDhhMzdjMDAtYzlkYS00ZjZlLTkzMmMtMDZkODkyYmY4MmRmIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9

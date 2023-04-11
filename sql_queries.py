@@ -157,7 +157,7 @@ agg_public_holiday_table_insert = ('''
                                 FROM idrialug9071_staging.orders 
                                 JOIN if_common.dim_dates 
                                     ON orders.order_date = dim_dates.calendar_dt
-                                WHERE EXTRACT(YEAR FROM order_date) = 2022
+                                WHERE EXTRACT(YEAR FROM order_date) = 2021
                             ) subquery
                         ''')
 
