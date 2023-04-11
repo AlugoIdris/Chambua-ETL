@@ -24,7 +24,7 @@ The project is structured as follows:
 A total of three tables are created in the database hosted in Redshift. They include `orders`, `reviews` & `shipment_deliveries` tables. There are already four other tables existing in the datawarehouse. The `dim_customers`, `dim_products`, `dim_dates`, `dim_addresses`. The names of the tables along with their attributes are self explanatory about the information they hold. The primary key of each table is highlighted for clarity.
 
 <p align="center">
-  <img src="https://github.com/AlugoIdris/idrialug9071_d2b_project/blob/master/images/Data%20Model.png">
+  <img src="https://github.com/AlugoIdris/idrialug9071_d2b_project/blob/main/images/Data%20Model.png">
 </p>
 
 
@@ -62,8 +62,5 @@ This will execute the entire ETL pipeline, from data extraction to data loading.
 Modelling the dimension tables in the data warehouse, alongside the loaded data from S3 bucket, a report was created using Microsoft Power BI to see how the produccts are doing with respect to reviews, sales, orders, etc. The visualization is shown below:
 
 <p align="center">
-  <img src="https://github.com/AlugoIdris/idrialug9071_d2b_project/blob/master/images/Chambua%20Inc.png">
+  <img src="https://github.com/AlugoIdris/idrialug9071_d2b_project/blob/main/images/Chambua%20Inc.png">
 </p>
-
-Report can be found on: 
-https://app.powerbi.com/view?r=eyJrIjoiZDhhMzdjMDAtYzlkYS00ZjZlLTkzMmMtMDZkODkyYmY4MmRmIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9
