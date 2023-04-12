@@ -33,10 +33,10 @@ def process_orders_data(cur, filename):
         s3.download_file(
             S3_BUCKET_NAME,
             Key = f"orders_data/{path}",
-            Filename  = path,
+            Filename  = f"orders_data/{path}",
         )
 
-        return pd.read_csv(path)
+        return pd.read_csv(f"orders_data/{path}")
 
     orders = download_and_load_query_results(filename)    
     data_orders = orders.values.tolist()
@@ -70,10 +70,10 @@ def process_reviews_data(cur, filename):
         s3.download_file(
             S3_BUCKET_NAME,
             Key = f"orders_data/{path}",
-            Filename  = path,
+            Filename  = f"orders_data/{path}",
         )
 
-        return pd.read_csv(path)
+        return pd.read_csv(f"orders_data/{path}")
     
     reviews = download_and_load_query_results(filename)    
     data_reviews = reviews.values.tolist()
@@ -106,10 +106,10 @@ def process_shipment_data(cur, filename):
         s3.download_file(
             S3_BUCKET_NAME,
             Key = f"orders_data/{path}",
-            Filename  = path,
+            Filename  = f"orders_data/{path}",
         )
 
-        return pd.read_csv(path)
+        return pd.read_csv(f"orders_data/{path}")
 
     shipment_deliveries = download_and_load_query_results(filename)
     shipment_deliveries['shipment_date'] = pd.to_datetime(shipment_deliveries['shipment_date'], format= '%Y-%m-%d').dt.date

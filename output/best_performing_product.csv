@@ -1,0 +1,2 @@
+ingestion_date,product_name,most_ordered_day,is_public_holiday,tt_review_points,pct_one_star_review,pct_two_star_review,pct_three_star_review,pct_four_star_review,pct_five_star_review,pct_early_shipments,pct_late_shipments
+2023-04-12,Hammer,2022-09-03,f,3,18.77,17.33,18.41,19.86,25.63,88.64,11.36
