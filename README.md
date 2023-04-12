@@ -4,10 +4,10 @@ This project is an ETL (Extract, Transform, Load) data pipeline that processes d
 # Getting Started
 To run this project, you will need to have the following software installed:
 
-Python 3
-Pandas library
-Access to the S3 bucket and RDS data warehouse database
-You will also need to set up a PostgreSQL database with the necessary tables and columns to store the data. Make sure to update the `config.cfg` file with the correct database connection details.
+* Python 3
+* Pandas library
+* Access to the S3 bucket and RDS data warehouse database
+* You will also need to set up a PostgreSQL database with the necessary tables and columns to store the data. Make sure to update the `config.cfg` file with the correct database connection details.
 
 # Project Structure
 
