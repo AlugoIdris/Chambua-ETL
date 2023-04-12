@@ -1,5 +1,5 @@
 # ETL Data Project Readme
-This project is an ETL (Extract, Transform, Load) data pipeline that processes data from a ***S3*** bucket source, applies transformations to it, and loads it into a ***RDS*** staging datawarehouse. There after, some analysis is done on the tables in the datawarehouse and the analyzed data exported back to the ***S3*** bucket. The goal of this project is to provide clean, organized, and accurate data for analysis and decision-making.
+This project is an ETL (Extract, Transform, Load) data pipeline that processes data from a ***S3*** bucket source (`d2b-internal-assessment-bucket/orders_data`), applies transformations to it, and loads it into a ***RDS*** staging datawarehouse `idrialug9071_staging`. There after, some analysis is done on the tables in the datawarehouse and the analyzed data exported back to the ***S3*** bucket `d2b-internal-assessment-bucket/analytics_export`. The goal of this project is to provide clean, organized, and accurate data for analysis and decision-making.
 
 # Getting Started
 To run this project, you will need to have the following software installed:
@@ -36,16 +36,17 @@ python create_tables.py
 # ETL Pipeline
 The ETL pipeline consists of the following steps:
 
-1. Extraction: the raw data is read from the source data files, S3 using pandas dataframe and downloaded into `logs` directory
+1. Extraction: the raw data is read from the source data files, S3 using pandas dataframe and downloaded into `orders_data` directory
 
 2. Transformation: the data is cleaned as needed to prepare it for analysis. This includes data validation, data type conversions, etc.
 
-3. Loading: the transformed data is written to the staging database tables using ***Pandas and psycopg2***. The data is loaded into the staging tables and stored in the `transformed_data` directory using the following pseudo-code.
+3. Loading: the transformed data is written to the staging database tables using ***Pandas and psycopg2***. The data is loaded into the staging tables and stored in the `idrialug9071_staging` schema using the following pseudo-code.
 
 ```SQL
-INSERT INTO <table_name_star_schema>(<column_names>)
-SELECT <column_names> FROM <table_name_staging_table>;
+INSERT INTO <schema_name>.<table_name>(<column_names>)
+SELECT <column_names> FROM <schema_name>.<table_name>;
 ```
+4. Exporting: Some analysis were carried out in the staging database to find the `agg_public_holiday`, `agg_shipments` and `best_performing_product`. These findings were exported back to the S3 bucket directory `d2b-internal-assessment-bucket/analytics_export`. In addition, the computed data is also downloaded into the `output` folder on-premise.
 
 
 # Running the Pipeline
@@ -55,7 +56,7 @@ To run the pipeline, execute the following command in your terminal:
 python etl.py
 ```
 
-This will execute the entire ETL pipeline, from data extraction to data loading. The transformed data will be loaded to the RDS staging warehouse `idrialug9071_staging`, and the computed files will be loaded back to the S3 bucket directory `idrialug9071_analytics`.
+This will execute the entire ETL pipeline, from data extraction to data loading. The transformed data will be loaded to the RDS staging warehouse `idrialug9071_staging`, and the computed data will be loaded back to the S3 bucket directory `d2b-internal-assessment-bucket/analytics_export`.
 
 
 # Extra: Data Visualization
